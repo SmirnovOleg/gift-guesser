@@ -4,26 +4,26 @@ from functools import reduce
 from itertools import product
 from typing import List, Mapping
 
-Option = str
+_Option = str
 
 
 @dataclass()
-class Question:
+class _Question:
     text: str
-    options: List[Option]
+    options: List[_Option]
 
     def __hash__(self):
         return hash(self.text) + 31 * reduce(lambda x, y: hash(x) * 31 + hash(y), self.options)
 
 
 @dataclass
-class Gift:
+class _Gift:
     name: str
-    answers_history: Mapping[Question, Mapping[Option, int]]
+    answers_history: Mapping[_Question, Mapping[_Option, int]]
 
     def __init__(self, name):
         self.name = name
-        self.answers_history = {q: {o: 1.0 / len(q.options) for o in q.options} for q in questions}
+        self.answers_history = {q: {o: 1.0 for o in q.options} for q in questions}
 
     def __repr__(self):
         return self.name
@@ -32,7 +32,7 @@ class Gift:
     def marginal_probability(self) -> float:
         return 1.0 / len(gifts)
 
-    def likelihood(self, answers: Mapping[Question, Option]) -> float:
+    def likelihood(self, answers: Mapping[_Question, _Option]) -> float:
         questions_likelihood = 1
         for q, o in answers.items():
             questions_likelihood *= self.answers_history[q][o] / sum(self.answers_history[q].values())
@@ -40,19 +40,19 @@ class Gift:
 
 
 questions = [
-    Question(text='Is it for female?', options=['y', 'n']),
-    Question(text='Is it a summer gift?', options=['y', 'n'])
+    _Question(text='Is it for female?', options=['y', 'n']),
+    _Question(text='Is it a summer gift?', options=['y', 'n'])
 ]
 
 gifts = [
-    Gift('Bicycle'),
-    Gift('Ski'),
-    Gift('Dress'),
-    Gift('Christmas toy')
+    _Gift('Bicycle'),
+    _Gift('Ski'),
+    _Gift('Dress'),
+    _Gift('Christmas toy')
 ]
 
 
-def read_option(question: Question) -> Option:
+def read_option(question: _Question) -> _Option:
     print('Your answer: ', end='')
     option = input()
     while option not in question.options:
