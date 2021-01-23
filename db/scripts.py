@@ -3,13 +3,13 @@ import csv
 from mongoengine import connect
 
 from config import GlobalConfig
-from database.models import Gift, Question
+from db.models import Gift, Question
 
 connect(db=GlobalConfig.DB_NAME, host=GlobalConfig.DB_HOST, port=GlobalConfig.DB_PORT)
 
 
 def init_db():
-    with open('database/questions.csv') as file:
+    with open('data/questions.csv') as file:
         reader = csv.reader(file, delimiter=',')
         next(reader, None)  # skip header
         for row in reader:
@@ -17,7 +17,7 @@ def init_db():
             options.append('Не знаю')
             Question(text=text, options=options).save()
 
-    with open('database/gifts.csv') as file:
+    with open('data/gifts.csv') as file:
         reader = csv.reader(file, delimiter=',')
         next(reader, None)  # skip header
         for row in reader:
