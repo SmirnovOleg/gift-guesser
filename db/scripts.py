@@ -2,7 +2,7 @@ import csv
 
 from mongoengine import connect
 
-from config import GlobalConfig
+from config import GlobalConfig, BotConfig
 from db.models import Gift, Question
 
 connect(db=GlobalConfig.DB_NAME, host=GlobalConfig.DB_HOST, port=GlobalConfig.DB_PORT)
@@ -14,7 +14,7 @@ def init_db():
         next(reader, None)  # skip header
         for row in reader:
             text, options = row[0], [option.strip() for option in row[1].split('/')]
-            options.append('Не знаю')
+            options.append(BotConfig.DONT_KNOW_CAPTION)
             Question(text=text, options=options).save()
 
     with open('data/gifts.csv') as file:

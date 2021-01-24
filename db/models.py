@@ -15,7 +15,7 @@ class Question(Document):
     def get_weighted_entropy(self, session: Session):
         weighted_entropy = 0
         for option in self.options:
-            entropy = Gift.objects.get_entropy(session + (self, option))
+            entropy = Gift.objects.get_entropy(session + [(self, option)])
             weight = 0
             for gift in Gift.objects:
                 weight += gift.conditional_probability(self, option) * gift.likelihood(session)
@@ -44,7 +44,7 @@ class Gift(Document):
 
     def conditional_probability(self, question: Question, option: Option) -> float:
         # P ( Question -> Option | Gift )
-        return self.history[question][option] / sum(self.history[question].values())
+        return self.history[question.text][option] / sum(self.history[question.text].values())
 
     def likelihood(self, session: Session) -> float:
         # P (Gift | Question_1 -> Option_1, Question_2 -> Option_2, ... )

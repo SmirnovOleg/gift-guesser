@@ -14,7 +14,7 @@ def start_training(update: Update, context: CallbackContext):
     user = update.message.from_user
     logger.info(f'User {user.id} ({user.username}) started labelling.')
 
-    reply_keyboard = [[BotConfig.START_BUTTON_CAPTION]]
+    reply_keyboard = [[BotConfig.START_CAPTION]]
     update.message.reply_text(
         "Привет! Нам нужна помощь с обучением ML модели для подбора подарков.\n"
         "Я буду давать конкретный подарок и вопрос о нём, а ты отвечать, как считаешь нужным.",
@@ -79,7 +79,7 @@ def train():
         states={
             BotConfig.START_STATE: [
                 MessageHandler(
-                    filters=Filters.regex(f'^({BotConfig.START_BUTTON_CAPTION})$'),
+                    filters=Filters.regex(f'^({BotConfig.START_CAPTION})$'),
                     callback=random_pair_callback
                 )
             ],

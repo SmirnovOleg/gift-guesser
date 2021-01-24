@@ -8,7 +8,10 @@ class BotConfig:
     GUESSING_STATE = 2
     SUGGESTION_STATE = 3
 
-    START_BUTTON_CAPTION = 'Поехали!'
+    START_CAPTION = 'Поехали!'
+    YES_CAPTION = 'Да'
+    NO_CAPTION = 'Нет'
+    DONT_KNOW_CAPTION = 'Не знаю'
 
 
 class GlobalConfig:
